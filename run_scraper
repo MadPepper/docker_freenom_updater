@@ -1,0 +1,13 @@
+#!/bin/sh
+
+param=`cat /var/local/freenom/param`
+current=`cat /var/local/freenom/current`
+today=`date +%Y%m%d`
+
+
+if test "$param" != "$current"; then
+    echo `date +%H:%M:%S` >> /var/log/freenom/$today.log
+    python3 /usr/local/lib/scraper.py $param >> /var/log/freenom/$today.log
+    echo $param > /var/local/freenom/current
+fi
+
